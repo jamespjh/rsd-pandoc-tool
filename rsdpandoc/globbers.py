@@ -68,7 +68,7 @@ def latex_assets(dependants,env,target="pdf",sources="asset_sources"):
 	default_latex_assets(dependants,'assets',env)
 
 def web_assets(dependants,env,target="web",sources="asset_sources"):
-	assets_glob('asset_sources',os.path.join(target,'assets'),dependants,env)
+	assets_glob(sources,os.path.join(target,'assets'),dependants,env)
 	default_web_assets(dependants,os.path.join(target,'assets'),env)
 
 def reveal_layout(sources,env,target="reveal",asset_sources="asset_sources"):
