@@ -19,3 +19,11 @@ div section .slide {
   background: rgba(255, 255, 255, 0.0);
   border: 0px solid #eeeeee;
 }
+
+.reveal table thead th {
+	font-weight: 700;
+}
+.reveal table {
+	display: inline-block;
+	text-align: center;
+}

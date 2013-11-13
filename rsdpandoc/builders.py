@@ -5,6 +5,7 @@ import subprocess
 import shutil
 
 import carousel
+import tidybib
 
 def wget_each_url(target,source,env):
     data=yaml.load(open(source[0].path))
@@ -46,7 +47,7 @@ def add_builders(env):
 			suffix=".png", 
 			src_suffix=".dot"),
 		
-		'PY':env.Builder(
+		'Python':env.Builder(
 			action=["python $SOURCE $TARGET"],
 	    	suffix='.png',
 	    	src_suffix='.py'),
@@ -74,6 +75,7 @@ def add_builders(env):
 			action=['pandoc --template=report '+
 					'-V documentclass=scrartcl ' +
 					'-V links-as-notes ' +
+					'--filter pandoc-citeproc ' +
 					'--default-image-extension=png '+
 					'-V linkcolor="uclmidgreen" ' +
 					'--number-sections $SOURCES -o $TARGET'],
@@ -90,6 +92,16 @@ def add_builders(env):
 	    
 	    'Cp':env.Builder(
 	    	action=["cp $SOURCES $TARGET"]
+	    	),
+
+	    'R': env.Builder(
+	    	action=['RScript $SOURCE $TARGET']
+	    	), # Assume R script expects dest file as first clarg
+
+	    'Bib': env.Builder(
+	    	action=tidybib.tidybib_action,
+	    	suffix=".bib",
+	    	source_suffix=".zbib"
 	    	)
 		})
 

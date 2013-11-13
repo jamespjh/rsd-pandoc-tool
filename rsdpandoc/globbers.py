@@ -29,7 +29,7 @@ def asset_glob(source,target,dependants,builder,pattern,env):
 def assets_glob(source,target,dependants,env):
 	patterns={
 		'*.nto': env.Neato,
-		'*.py': env.PY,
+		'*.py': env.Python,
 		'*.dot': env.Dot,
 		'*.sh' : env.Shell,
 		'*.wget' : env.Wget,
@@ -37,7 +37,8 @@ def assets_glob(source,target,dependants,env):
 		'*.jpg': env.Cp,
 		'*.svg': env.Cp,
 		'*.css' : env.Cp,
-		'*.pdf' : env.Cp
+		'*.pdf' : env.Cp,
+		'*.R' : env.R
 	}
 	if env.get("HaveWSD"):
 		patterns['*.wsd']=env.WSD
@@ -60,12 +61,13 @@ def latex_assets(dependants,env):
 def reveal_layout(sources,env):
 	slides=env.PandocSlides('reveal/index.html',sources)
 	reveal_assets(slides,env)
+	return slides
 
 def latex_layout(sources,env):
 	document=env.PandocLatex('pdf/document.pdf',sources)
 	tex=env.PandocLatex('pdf/document.tex',sources)
 	latex_assets([document,tex],env)
+	return document
 
 def standard_layout(sources,env):
-	latex_layout(sources,env)
-	reveal_layout(sources,env)
+	return[latex_layout(sources,env),reveal_layout(sources,env)]
