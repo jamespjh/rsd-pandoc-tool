@@ -67,6 +67,7 @@ def add_builders(env):
 					' --css=assets/slidetheme.css'+
 					' --css=assets/local_styles.css'+
 					' --default-image-extension=png'+
+					' --highlight-style=zenburn'+
 					' --mathjax '+
 					' -V revealjs-url=http://lab.hakim.se/reveal-js/'+
 					' $SOURCES -o $TARGET']),
