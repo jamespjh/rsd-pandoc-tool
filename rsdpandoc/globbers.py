@@ -39,11 +39,11 @@ def assets_glob(source,target,dependants,env):
 		'*.css' : env.Cp,
 		'*.pdf' : env.Cp
 	}
-	if have_WSD:
+	if env.get("HaveWSD"):
 		patterns['*.wsd']=env.WSD
-	if have_webkit2png:
+	if env.get("HaveWebKit"):
 		patterns['*.browse']=env.Browse
-	if have_PIL:
+	if env.get("HavePIL"):
 		patterns['*.carousel']=env.Carousel
 	for pattern in patterns:
 		asset_glob(source,target,dependants,patterns[pattern],pattern,env)
