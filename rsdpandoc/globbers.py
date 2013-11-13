@@ -15,7 +15,7 @@ have_PIL=True
 def assetpath(node,target,env):
 	ext='.png'
 	[base,current_ext]=os.path.splitext(env.GetBuildPath(node))
-	if current_ext in ['.jpg','.svg','.tex','.pdf','.css','.latex']:
+	if current_ext in ['.jpg','.svg','.tex','.pdf','.css','.latex','.html']:
 		ext=current_ext
 	return os.path.join(target,
 		os.path.basename(base)+ext)
@@ -56,6 +56,9 @@ def default_latex_assets(dependants,env):
 	asset_glob(local_assets,'.',dependants,env.Cp,'*.latex',env)
 	assets_glob(local_assets,'assets',dependants,env)
 
+def default_web_assets(dependants,env):
+	asset_glob(local_assets,'.',dependants,env.Cp,'*.html',env)
+
 def reveal_assets(dependants,env):
 	assets_glob('asset_sources','reveal/assets',dependants,env)
 	default_reveal_assets(dependants,env)
@@ -63,6 +66,10 @@ def reveal_assets(dependants,env):
 def latex_assets(dependants,env):
 	assets_glob('asset_sources','assets',dependants,env)
 	default_latex_assets(dependants,env)
+
+def web_assets(dependants,env):
+	assets_glob('asset_sources','web/assets',dependants,env)
+	default_web_assets(dependants,env)
 
 def reveal_layout(sources,env):
 	slides=env.PandocSlides('reveal/index.html',sources)
@@ -73,6 +80,11 @@ def latex_layout(sources,env):
 	document=env.PandocLatex('pdf/document.pdf',sources)
 	tex=env.PandocLatex('pdf/document.tex',sources)
 	latex_assets([document,tex],env)
+	return document
+
+def web_layout(sources,env):
+	document=env.PandocJekyll('web/index.html',sources)
+	web_assets(document,env)
 	return document
 
 def standard_layout(sources,env):

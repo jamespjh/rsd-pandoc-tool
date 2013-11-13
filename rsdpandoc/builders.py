@@ -81,6 +81,13 @@ def add_builders(env):
 					'-V linkcolor="uclmidgreen" ' +
 					'--number-sections $SOURCES -o $TARGET'],
 			),
+
+		'PandocJekyll':env.Builder(
+			action=['pandoc -thtml -s --template=jekyll'+
+					' --default-image-extension=png'+
+					' --mathjax '+
+					' $SOURCES -o $TARGET']
+			),
 		
 		'Browse':env.Builder(
 			action=browse_each_url,
