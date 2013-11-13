@@ -49,14 +49,20 @@ def assets_glob(source,target,dependants,env):
 	for pattern in patterns:
 		asset_glob(source,target,dependants,patterns[pattern],pattern,env)
 
+def default_reveal_assets(dependants,env):
+	assets_glob(local_assets,'reveal/assets',dependants,env)
+
+def default_latex_assets(dependants,env):
+	asset_glob(local_assets,'.',dependants,env.Cp,'*.latex',env)
+	assets_glob(local_assets,'assets',dependants,env)
+
 def reveal_assets(dependants,env):
 	assets_glob('asset_sources','reveal/assets',dependants,env)
-	assets_glob(local_assets,'reveal/assets',dependants,env)
+	default_reveal_assets(dependants,env)
 
 def latex_assets(dependants,env):
 	assets_glob('asset_sources','assets',dependants,env)
-	asset_glob(local_assets,'.',dependants,env.Cp,'*.latex',env)
-	assets_glob(local_assets,'assets',dependants,env)
+	default_latex_assets(dependants,env)
 
 def reveal_layout(sources,env):
 	slides=env.PandocSlides('reveal/index.html',sources)
