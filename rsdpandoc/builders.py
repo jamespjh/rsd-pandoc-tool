@@ -27,6 +27,11 @@ def browse_each_url(target,source,env):
         subprocess.call(["webkit2png","--delay=1","-s1","-F","-otemp", source])
         shutil.move("temp-full.png",target.path)  
 
+SlideStyle = "night"
+SlideSyntaxHighlightingStyle = "zenburn"
+SlideExtraCSSFiles = []
+SlideTemplateName = False
+
 def add_builders(env): 
 
 	env.Append(BUILDERS={
@@ -60,18 +65,30 @@ def add_builders(env):
 	    'Wget':env.Builder(
 	    	action=wget_each_url,
 	    	emitter=yaml_emitter),
-	    
-	    'PandocSlides':env.Builder(
-	    	action=['pandoc -t revealjs -s -V theme=night'+
-					' --css=assets/night.css'+
-					' --css=assets/slidetheme.css'+
-					' --css=assets/local_styles.css'+
-					' --default-image-extension=png'+
-					' --highlight-style=zenburn'+
-					' --mathjax '+
-					' -V revealjs-url=http://lab.hakim.se/reveal-js/'+
-					' $SOURCES -o $TARGET']),
-		
+
+        'PandocSlides': env.Builder(
+            generator = lambda source,target,env,for_signature: (
+                         'pandoc -t revealjs -s -V theme=%s'+
+                         ' --css=assets/%s.css'             +
+                         ' --css=assets/slidetheme.css'     +
+                         ' --css=assets/local_styles.css'   +
+                         ' %s '                             +
+                         ' %s '                             +
+                         ' --default-image-extension=png'   +
+                         ' --highlight-style=%s'            +
+                         ' --mathjax'                       +
+                         ' -V revealjs-url=http://lab.hakim.se/reveal-js/'+
+                         ' %s '                             +
+                         '-o %s' ) %
+                         ( SlideStyle, SlideStyle,
+                           ("--template="+SlideTemplateName if SlideTemplateName else ' '),
+                           ' '.join([ "--css=assets/%s" % x for x in SlideExtraCSSFiles ]),
+                           SlideSyntaxHighlightingStyle,
+                           ' '.join([str(x) for x in source]), # source entries are of File type
+                           target[0]
+                           )
+            ),
+ 
 		'PandocLatex':env.Builder(
 			action=['pandoc --template=report '+
 					'-V documentclass=scrartcl ' +
