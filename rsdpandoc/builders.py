@@ -70,7 +70,7 @@ def add_builders(env):
             generator = lambda source,target,env,for_signature: (
                          'pandoc -t revealjs -s -V theme=%s'+
                          ' --css=assets/%s.css'             +
-                         ' --css=assets/slidetheme.css'     +
+                         ' --css=assets/%s-ucl-overlay.css'     +
                          ' --css=assets/local_styles.css'   +
                          ' %s '                             +
                          ' %s '                             +
@@ -80,11 +80,11 @@ def add_builders(env):
                          ' -V revealjs-url=http://lab.hakim.se/reveal-js/'+
                          ' %s '                             +
                          '-o %s' ) %
-                         ( SlideStyle, SlideStyle,
+                         ( SlideStyle, SlideStyle, SlideStyle,
                            ("--template="+SlideTemplateName if SlideTemplateName else ' '),
                            ' '.join([ "--css=assets/%s" % x for x in SlideExtraCSSFiles ]),
                            SlideSyntaxHighlightingStyle,
-                           ' '.join([str(x) for x in source]), # source entries are of File type
+                           ' '.join([str(x) for x in source]), 
                            target[0]
                            )
             ),
