@@ -60,7 +60,7 @@ $if(verbatim-in-note)$
 \usepackage{fancyvrb}
 $endif$
 $if(tables)$
-\usepackage{longtable}
+\usepackage{longtable,booktabs}
 \let\oldlongtable\longtable
 
 \def\longtable{\tiny \oldlongtable}
