@@ -41,11 +41,11 @@ def add_builders(env):
     # OS env path try with some sensible default. Workaround for limited path when using
     # Puppet from Cron.
     pandoc_exec = WhereIs('pandoc')
-    if pandoc_exec == None
+    if pandoc_exec == None:
         pandoc_exec = WhereIs('pandoc', path=default_path)
 
     dot_exec = WhereIs('dot')
-    if dot_exec == None
+    if dot_exec == None:
         dot_exec = WhereIs('dot', path=default_path)
     assets = ' '.join([ "--css=assets/" + str(x) for x in SlideExtraCSSFiles ])
     template = ("--template=" + SlideTemplateName) if SlideTemplateName else ' '
