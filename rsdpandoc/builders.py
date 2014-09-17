@@ -10,10 +10,14 @@ import tidybib
 def wget_each_url(target,source,env):
     data=yaml.load(open(source[0].path))
     for target,source in zip(target,data.values()):
-        content=urllib.urlopen(source)
-        result=open(target.path,'w')
-        result.write(content.read())
-        result.close()
+    	print source, "->", target.path
+    	try:
+            content=urllib.urlopen(source)
+            result=open(target.path,'w')
+            result.write(content.read())
+            result.close()
+        except urllib.URLError as e:
+        	print e, "Failed to download"
 
 def yaml_emitter(target,source,env):
     data=yaml.load(open(source[0].path))
