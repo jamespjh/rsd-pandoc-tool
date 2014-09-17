@@ -30,3 +30,11 @@ div section .slide {
 .reveal pre {
 	background: rgb(25,40,25);
 }
+
+/* Adds left and right padding inside the slide 
+ * That way text does not bunch up to the green border */
+.reveal .slides>section,.reveal .slides>section>section {
+  padding-left: 1%;
+  padding-right: 1%;
+}
+

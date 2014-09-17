@@ -87,10 +87,10 @@ def web_layout(sources,env,target="web",asset_sources="asset_sources"):
 	web_assets(document,env,target,asset_sources)
 	return document
 
-def mixed_html_layout(sources,env,asset_sources="asset_sources"):
+def mixed_html_layout(sources, env, asset_sources="asset_sources", location='html'):
 	return[
-		web_layout(sources,env,'html',asset_sources),
-		reveal_layout(sources,env,'html/reveal',asset_sources)
+		web_layout(sources, env, location, asset_sources),
+		reveal_layout(sources, env, '{0}/reveal'.format(location), asset_sources)
 	]
 
 def standard_layout(sources,env,asset_sources="asset_sources"):
